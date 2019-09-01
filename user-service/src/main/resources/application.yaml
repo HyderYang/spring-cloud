@@ -1,0 +1,9 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:33060/ssm
+    username: homestead
+    password: secret
+mybatis:
+  type-aliases-package: hyder.user.pojo
