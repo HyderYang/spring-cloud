@@ -2,6 +2,7 @@ package hyder.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -9,6 +10,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @created: 2019/9/2 上午12:58
  * @description:
  */
+@EnableDiscoveryClient
 @SpringBootApplication
 @MapperScan("hyder.user.dao")
 public class UserApp {

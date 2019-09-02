@@ -1,9 +1,16 @@
 server:
   port: 8081
 spring:
+  application:
+    name: user-service
   datasource:
     url: jdbc:mysql://localhost:33060/ssm
     username: homestead
     password: secret
 mybatis:
   type-aliases-package: hyder.user.pojo
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
