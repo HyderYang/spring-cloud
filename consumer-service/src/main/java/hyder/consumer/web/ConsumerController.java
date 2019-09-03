@@ -2,6 +2,7 @@ package hyder.consumer.web;
 
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import hyder.consumer.client.UserClient;
 import hyder.consumer.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -32,8 +33,8 @@ public class ConsumerController {
 //	private DiscoveryClient discoveryClient;
 
 	// 负载均衡
-	@Autowired
-	private RibbonLoadBalancerClient client;
+//	@Autowired
+//	private RibbonLoadBalancerClient client;
 
 //	@GetMapping("/{id}")
 //	public User getUserByID(@PathVariable("id") Long id){
@@ -51,15 +52,23 @@ public class ConsumerController {
 //		return this.restTemplate.getForObject(url, User.class);
 //	}
 
-	@GetMapping("/{id}")
+//	@GetMapping("/{id}")
 //	@HystrixCommand(fallbackMethod = "getUserByIDFallBack")
-	@HystrixCommand
-	public String getUserByID(@PathVariable("id") Long id){
-		String url = "http://userservice/user/" + id;
-		return this.restTemplate.getForObject(url, String.class);
-	}
-
+//	@HystrixCommand
+//	public String getUserByID(@PathVariable("id") Long id){
+//		String url = "http://userservice/user/" + id;
+//		return this.restTemplate.getForObject(url, String.class);
+//	}
+//
 	public String getUserByIDFallBack(@PathVariable("id") Long id){
 		return "服务正忙";
+	}
+
+	@Autowired
+	private UserClient userClient;
+
+	@GetMapping("{id}")
+	public User queryByID(@PathVariable("id") Long id){
+		return this.userClient.queryByID(id);
 	}
 }
