@@ -1,0 +1,19 @@
+server:
+  port: 10010
+#zuul:
+#  prefix: /api
+#  ignored-service:
+#     consumer-service
+#  routes:
+##    hehe:
+##      path: /user-service/**
+##      serviceId: user-service
+#    user-service: /user-service/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureke
+spring:
+  application:
+    name: gateway
