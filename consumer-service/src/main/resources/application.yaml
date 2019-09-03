@@ -14,18 +14,27 @@ user-service: # 服务名称
   ribbon:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule # 随机策略 默认轮询
 
+# feign 负载均衡
+ribbon:
+  ConnectionTimeOut: 500
+  ReadTimeOut: 2000
+# hystrix 在feign 中默认关闭
+feign:
+    hystrix:
+      enabled: true
+
 
 # hystrix 默认服务降级配置 超时时间
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 3000
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 3000
 
-    user-service:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 3000
+#    user-service:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 3000
