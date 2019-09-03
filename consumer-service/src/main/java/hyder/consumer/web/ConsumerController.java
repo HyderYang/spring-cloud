@@ -1,5 +1,7 @@
 package hyder.consumer.web;
 
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import hyder.consumer.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -20,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("consumer")
+@DefaultProperties(defaultFallback = "getUserByIDFallBack")
 public class ConsumerController {
 
 	@Autowired
@@ -32,19 +35,31 @@ public class ConsumerController {
 	@Autowired
 	private RibbonLoadBalancerClient client;
 
+//	@GetMapping("/{id}")
+//	public User getUserByID(@PathVariable("id") Long id){
+//		// 根据服务ID获取实例
+////		List<ServiceInstance> instancesById = this.discoveryClient.getInstances("user-service");
+////		ServiceInstance info = instancesById.get(0);
+////		String url = "http://" + info.getHost() + ":" + info.getPort() + "/user/" + id;
+////		String url = "http://localhost:8081/user/" + id;
+//
+//		// 负载均衡 默认轮询
+////		ServiceInstance choose = client.choose("user-service");
+//
+//		// 需要入口文件注解LoadBalanced注解
+//		String url = "http://user-service/user/" + id;
+//		return this.restTemplate.getForObject(url, User.class);
+//	}
+
 	@GetMapping("/{id}")
-	public User getUserByID(@PathVariable("id") Long id){
-		// 根据服务ID获取实例
-//		List<ServiceInstance> instancesById = this.discoveryClient.getInstances("user-service");
-//		ServiceInstance info = instancesById.get(0);
-//		String url = "http://" + info.getHost() + ":" + info.getPort() + "/user/" + id;
-//		String url = "http://localhost:8081/user/" + id;
+//	@HystrixCommand(fallbackMethod = "getUserByIDFallBack")
+	@HystrixCommand
+	public String getUserByID(@PathVariable("id") Long id){
+		String url = "http://userservice/user/" + id;
+		return this.restTemplate.getForObject(url, String.class);
+	}
 
-		// 负载均衡 默认轮询
-//		ServiceInstance choose = client.choose("user-service");
-
-		// 需要入口文件注解LoadBalanced注解
-		String url = "http://user-service/user/" + id;
-		return this.restTemplate.getForObject(url, User.class);
+	public String getUserByIDFallBack(@PathVariable("id") Long id){
+		return "服务正忙";
 	}
 }
