@@ -17,14 +17,14 @@ public class UserService {
 	@Autowired
 	private UserDO userDO;
 
-	public User getUser(Long id){
+	public User getUser(Long id) {
 		return this.userDO.selectByPrimaryKey(1L);
 	}
 
 	//	事务纾解
 	//  引入jdbc启动器时即完成
 	@Transactional
-	public void saveUser(User user){
+	public void saveUser(User user) {
 		this.userDO.insert(user);
 	}
 }

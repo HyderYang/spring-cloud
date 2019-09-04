@@ -27,6 +27,4 @@ public class User {
 	private Date created;
 	private Date updated;
 
-//	@Transient
-//	private String noUseField;
 }
